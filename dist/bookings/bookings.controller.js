@@ -31,7 +31,7 @@ let BookingsController = class BookingsController {
         return this.bookingsService.getProviderBookings(req.user.sub);
     }
     updateStatus(id, body, req) {
-        let providerId = req.user.role === 'provider' ? req.user.sub : undefined;
+        let providerId = req.user.role === "provider" ? req.user.sub : undefined;
         if (body.providerId)
             providerId = body.providerId;
         return this.bookingsService.updateStatus(id, body.status, providerId);
@@ -39,7 +39,7 @@ let BookingsController = class BookingsController {
 };
 exports.BookingsController = BookingsController;
 __decorate([
-    (0, common_1.Post)('create'),
+    (0, common_1.Post)("create"),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Request)()),
     __metadata("design:type", Function),
@@ -47,22 +47,22 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], BookingsController.prototype, "create", null);
 __decorate([
-    (0, common_1.Get)('my'),
+    (0, common_1.Get)("my"),
     __param(0, (0, common_1.Request)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], BookingsController.prototype, "getMyBookings", null);
 __decorate([
-    (0, common_1.Get)('provider/my'),
+    (0, common_1.Get)("provider/my"),
     __param(0, (0, common_1.Request)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], BookingsController.prototype, "getProviderBookings", null);
 __decorate([
-    (0, common_1.Patch)(':id/status'),
-    __param(0, (0, common_1.Param)('id')),
+    (0, common_1.Patch)(":id/status"),
+    __param(0, (0, common_1.Param)("id")),
     __param(1, (0, common_1.Body)()),
     __param(2, (0, common_1.Request)()),
     __metadata("design:type", Function),
@@ -70,7 +70,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], BookingsController.prototype, "updateStatus", null);
 exports.BookingsController = BookingsController = __decorate([
-    (0, common_1.Controller)('bookings'),
+    (0, common_1.Controller)("bookings"),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     __metadata("design:paramtypes", [bookings_service_1.BookingsService])
 ], BookingsController);

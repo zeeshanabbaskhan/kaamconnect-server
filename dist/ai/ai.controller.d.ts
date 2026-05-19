@@ -1,5 +1,5 @@
-import { OrchestratorService } from './orchestrator.service';
-import { IntentAgentService } from './intent-agent.service';
+import { OrchestratorService } from "./orchestrator.service";
+import { IntentAgentService } from "./intent-agent.service";
 export declare class AiController {
     private readonly orchestrator;
     private readonly intentAgent;

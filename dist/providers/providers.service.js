@@ -24,36 +24,69 @@ let ProvidersService = class ProvidersService {
         this.reviewModel = reviewModel;
     }
     async getAllProviders(query = {}) {
-        const filter = { status: 'active' };
+        const filter = { status: "active" };
         if (query.skill)
-            filter.skills = { $regex: query.skill, $options: 'i' };
-        return this.providerModel.find(filter).select('-passwordHash').sort({ rating: -1 });
+            filter.skills = { $regex: query.skill, $options: "i" };
+        return this.providerModel
+            .find(filter)
+            .select("-passwordHash")
+            .sort({ rating: -1 });
     }
     async getById(id) {
-        const provider = await this.providerModel.findById(id).select('-passwordHash');
+        const provider = await this.providerModel
+            .findById(id)
+            .select("-passwordHash");
         if (!provider)
-            throw new common_1.NotFoundException('Provider not found');
+            throw new common_1.NotFoundException("Provider not found");
         return provider;
     }
     async updateProfile(id, dto) {
-        return this.providerModel.findByIdAndUpdate(id, dto, { new: true }).select('-passwordHash');
+        return this.providerModel
+            .findByIdAndUpdate(id, dto, { new: true })
+            .select("-passwordHash");
     }
     async updateLocation(id, lat, lng) {
         return this.providerModel.findByIdAndUpdate(id, { location: { lat, lng } }, { new: true });
     }
     async getProviderStats(id) {
-        const provider = await this.providerModel.findById(id).select('-passwordHash');
-        const reviews = await this.reviewModel.find({ providerId: id }).sort({ createdAt: -1 }).limit(5);
+        const provider = await this.providerModel
+            .findById(id)
+            .select("-passwordHash");
+        const reviews = await this.reviewModel
+            .find({ providerId: id })
+            .sort({ createdAt: -1 })
+            .limit(5);
         return { provider, recentReviews: reviews };
+    }
+    haversineKm(lat1, lng1, lat2, lng2) {
+        const R = 6371;
+        const dLat = (lat2 - lat1) * (Math.PI / 180);
+        const dLon = (lng2 - lng1) * (Math.PI / 180);
+        const a = Math.sin(dLat / 2) ** 2 +
+            Math.cos(lat1 * (Math.PI / 180)) *
+                Math.cos(lat2 * (Math.PI / 180)) *
+                Math.sin(dLon / 2) ** 2;
+        return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     }
     async searchProviders(serviceType, lat, lng) {
         const providers = await this.providerModel
             .find({
-            skills: { $regex: serviceType, $options: 'i' },
-            status: 'active',
+            skills: { $regex: serviceType, $options: "i" },
+            status: "active",
         })
-            .select('-passwordHash')
-            .limit(20);
+            .select("-passwordHash")
+            .limit(50);
+        if (lat && lng) {
+            return providers
+                .map((p) => {
+                const distanceKm = p.location?.lat && p.location?.lng
+                    ? this.haversineKm(lat, lng, p.location.lat, p.location.lng)
+                    : 9999;
+                return { ...p.toObject(), distanceKm };
+            })
+                .sort((a, b) => a.distanceKm - b.distanceKm)
+                .slice(0, 20);
+        }
         return providers;
     }
     async updateRating(providerId, newRating) {
@@ -71,8 +104,8 @@ let ProvidersService = class ProvidersService {
 exports.ProvidersService = ProvidersService;
 exports.ProvidersService = ProvidersService = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, mongoose_1.InjectModel)('Provider')),
-    __param(1, (0, mongoose_1.InjectModel)('Review')),
+    __param(0, (0, mongoose_1.InjectModel)("Provider")),
+    __param(1, (0, mongoose_1.InjectModel)("Review")),
     __metadata("design:paramtypes", [mongoose_2.Model,
         mongoose_2.Model])
 ], ProvidersService);

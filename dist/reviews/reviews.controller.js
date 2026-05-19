@@ -39,14 +39,14 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ReviewsController.prototype, "create", null);
 __decorate([
-    (0, common_1.Get)('provider/:providerId'),
-    __param(0, (0, common_1.Param)('providerId')),
+    (0, common_1.Get)("provider/:providerId"),
+    __param(0, (0, common_1.Param)("providerId")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], ReviewsController.prototype, "getProviderReviews", null);
 exports.ReviewsController = ReviewsController = __decorate([
-    (0, common_1.Controller)('reviews'),
+    (0, common_1.Controller)("reviews"),
     __metadata("design:paramtypes", [reviews_service_1.ReviewsService])
 ], ReviewsController);
 //# sourceMappingURL=reviews.controller.js.map

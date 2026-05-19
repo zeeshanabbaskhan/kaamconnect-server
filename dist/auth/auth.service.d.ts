@@ -1,7 +1,7 @@
-import { JwtService } from '@nestjs/jwt';
-import { Model } from 'mongoose';
-import { UserDocument } from '../schemas/user.schema';
-import { ProviderDocument } from '../schemas/provider.schema';
+import { JwtService } from "@nestjs/jwt";
+import { Model } from "mongoose";
+import { UserDocument } from "../schemas/user.schema";
+import { ProviderDocument } from "../schemas/provider.schema";
 export declare class AuthService {
     private userModel;
     private providerModel;

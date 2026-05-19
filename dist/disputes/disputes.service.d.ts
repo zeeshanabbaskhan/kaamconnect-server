@@ -1,8 +1,8 @@
-import { Model } from 'mongoose';
-import { DisputeDocument } from '../schemas/dispute.schema';
-import { BookingDocument } from '../schemas/booking.schema';
-import { ProviderDocument } from '../schemas/provider.schema';
-import { DisputeAgentService } from '../ai/dispute-agent.service';
+import { Model } from "mongoose";
+import { DisputeDocument } from "../schemas/dispute.schema";
+import { BookingDocument } from "../schemas/booking.schema";
+import { ProviderDocument } from "../schemas/provider.schema";
+import { DisputeAgentService } from "../ai/dispute-agent.service";
 export declare class DisputesService {
     private disputeModel;
     private bookingModel;

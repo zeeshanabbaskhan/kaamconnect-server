@@ -49,29 +49,29 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ProvidersController.prototype, "getAll", null);
 __decorate([
-    (0, common_1.Post)('search'),
+    (0, common_1.Post)("search"),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], ProvidersController.prototype, "search", null);
 __decorate([
-    (0, common_1.Get)(':id'),
-    __param(0, (0, common_1.Param)('id')),
+    (0, common_1.Get)(":id"),
+    __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], ProvidersController.prototype, "getById", null);
 __decorate([
-    (0, common_1.Get)(':id/stats'),
+    (0, common_1.Get)(":id/stats"),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
-    __param(0, (0, common_1.Param)('id')),
+    __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], ProvidersController.prototype, "getStats", null);
 __decorate([
-    (0, common_1.Put)('profile'),
+    (0, common_1.Put)("profile"),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Request)()),
@@ -80,7 +80,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ProvidersController.prototype, "updateProfile", null);
 __decorate([
-    (0, common_1.Put)('location'),
+    (0, common_1.Put)("location"),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Request)()),
@@ -89,7 +89,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ProvidersController.prototype, "updateLocation", null);
 exports.ProvidersController = ProvidersController = __decorate([
-    (0, common_1.Controller)('providers'),
+    (0, common_1.Controller)("providers"),
     __metadata("design:paramtypes", [providers_service_1.ProvidersService])
 ], ProvidersController);
 //# sourceMappingURL=providers.controller.js.map

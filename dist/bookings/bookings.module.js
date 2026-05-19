@@ -15,6 +15,7 @@ const booking_schema_1 = require("../schemas/booking.schema");
 const provider_schema_1 = require("../schemas/provider.schema");
 const user_schema_1 = require("../schemas/user.schema");
 const ai_module_1 = require("../ai/ai.module");
+const sockets_module_1 = require("../sockets/sockets.module");
 let BookingsModule = class BookingsModule {
 };
 exports.BookingsModule = BookingsModule;
@@ -22,11 +23,12 @@ exports.BookingsModule = BookingsModule = __decorate([
     (0, common_1.Module)({
         imports: [
             mongoose_1.MongooseModule.forFeature([
-                { name: 'Booking', schema: booking_schema_1.BookingSchema },
-                { name: 'Provider', schema: provider_schema_1.ProviderSchema },
-                { name: 'User', schema: user_schema_1.UserSchema },
+                { name: "Booking", schema: booking_schema_1.BookingSchema },
+                { name: "Provider", schema: provider_schema_1.ProviderSchema },
+                { name: "User", schema: user_schema_1.UserSchema },
             ]),
             ai_module_1.AiModule,
+            sockets_module_1.SocketsModule,
         ],
         controllers: [bookings_controller_1.BookingsController],
         providers: [bookings_service_1.BookingsService],

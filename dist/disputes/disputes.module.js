@@ -22,9 +22,9 @@ exports.DisputesModule = DisputesModule = __decorate([
     (0, common_1.Module)({
         imports: [
             mongoose_1.MongooseModule.forFeature([
-                { name: 'Dispute', schema: dispute_schema_1.DisputeSchema },
-                { name: 'Booking', schema: booking_schema_1.BookingSchema },
-                { name: 'Provider', schema: provider_schema_1.ProviderSchema },
+                { name: "Dispute", schema: dispute_schema_1.DisputeSchema },
+                { name: "Booking", schema: booking_schema_1.BookingSchema },
+                { name: "Provider", schema: provider_schema_1.ProviderSchema },
             ]),
             ai_module_1.AiModule,
         ],

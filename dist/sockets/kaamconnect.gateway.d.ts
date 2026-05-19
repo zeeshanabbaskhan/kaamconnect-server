@@ -1,5 +1,5 @@
-import { OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect } from '@nestjs/websockets';
-import { Server, Socket } from 'socket.io';
+import { OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect } from "@nestjs/websockets";
+import { Server, Socket } from "socket.io";
 export declare class KaamConnectGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
     server: Server;
     private logger;

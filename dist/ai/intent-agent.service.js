@@ -12,12 +12,12 @@ var IntentAgentService_1;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.IntentAgentService = void 0;
 const common_1 = require("@nestjs/common");
-const gemini_service_1 = require("./gemini.service");
+const llm_service_1 = require("./llm.service");
 let IntentAgentService = IntentAgentService_1 = class IntentAgentService {
-    gemini;
+    llm;
     logger = new common_1.Logger(IntentAgentService_1.name);
-    constructor(gemini) {
-        this.gemini = gemini;
+    constructor(llm) {
+        this.llm = llm;
     }
     async extractIntent(text) {
         this.logger.log(`Extracting intent from: "${text}"`);
@@ -36,18 +36,18 @@ Return ONLY a valid JSON object matching this schema, no markdown blocks:
 User Request: "${text}"
 `;
         try {
-            const response = await this.gemini.generateText(prompt);
-            const cleaned = response.replace(/```json|```/g, '').trim();
+            const response = await this.llm.generateText(prompt);
+            const cleaned = response.replace(/```json|```/g, "").trim();
             return JSON.parse(cleaned);
         }
         catch (error) {
             this.logger.error(`Intent extraction failed: ${error.message}`);
             return {
-                serviceType: 'general',
-                urgency: 'medium',
-                language: 'en',
+                serviceType: "general",
+                urgency: "medium",
+                language: "en",
                 extractedDetails: [text],
-                sentiment: 'neutral',
+                sentiment: "neutral",
             };
         }
     }
@@ -55,6 +55,6 @@ User Request: "${text}"
 exports.IntentAgentService = IntentAgentService;
 exports.IntentAgentService = IntentAgentService = IntentAgentService_1 = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [gemini_service_1.GeminiService])
+    __metadata("design:paramtypes", [llm_service_1.LlmService])
 ], IntentAgentService);
 //# sourceMappingURL=intent-agent.service.js.map

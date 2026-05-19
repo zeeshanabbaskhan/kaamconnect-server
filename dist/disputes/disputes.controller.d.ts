@@ -1,4 +1,4 @@
-import { DisputesService } from './disputes.service';
+import { DisputesService } from "./disputes.service";
 export declare class DisputesController {
     private readonly disputesService;
     constructor(disputesService: DisputesService);

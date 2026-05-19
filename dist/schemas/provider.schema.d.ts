@@ -1,4 +1,4 @@
-import { Document } from 'mongoose';
+import { Document } from "mongoose";
 export type ProviderDocument = Provider & Document;
 export declare class Provider {
     name: string;

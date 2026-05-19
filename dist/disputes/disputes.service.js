@@ -29,10 +29,16 @@ let DisputesService = class DisputesService {
         this.disputeAgent = disputeAgent;
     }
     async createDispute(userId, dto) {
-        const booking = await this.bookingModel.findOne({ _id: dto.bookingId, userId }).lean();
+        const booking = await this.bookingModel
+            .findOne({ _id: dto.bookingId, userId })
+            .lean();
         if (!booking)
-            throw new common_1.NotFoundException('Booking not found');
-        const provider = await this.providerModel.findById(booking.providerId).lean();
+            throw new common_1.NotFoundException("Booking not found");
+        const provider = await this.providerModel
+            .findById(booking.providerId)
+            .lean();
+        if (!provider)
+            throw new common_1.NotFoundException("Provider not found");
         const analysis = await this.disputeAgent.analyzeDispute({ type: dto.type, description: dto.description }, booking, provider);
         const dispute = await this.disputeModel.create({
             bookingId: dto.bookingId,
@@ -40,12 +46,14 @@ let DisputesService = class DisputesService {
             providerId: booking.providerId,
             type: dto.type,
             description: dto.description,
-            status: 'investigating',
+            status: "investigating",
             aiAnalysis: analysis,
             refundAmount: analysis.refundAmount,
             resolution: analysis.explanation,
         });
-        await this.bookingModel.findByIdAndUpdate(dto.bookingId, { status: 'disputed' });
+        await this.bookingModel.findByIdAndUpdate(dto.bookingId, {
+            status: "disputed",
+        });
         if (analysis.penalizeProvider && analysis.reliabilityDeduction > 0) {
             await this.providerModel.findByIdAndUpdate(booking.providerId, {
                 $inc: { reliabilityScore: -analysis.reliabilityDeduction },
@@ -56,20 +64,20 @@ let DisputesService = class DisputesService {
     async getMyDisputes(userId) {
         return this.disputeModel
             .find({ userId })
-            .populate('bookingId')
-            .populate('providerId', 'name phone')
+            .populate("bookingId")
+            .populate("providerId", "name phone")
             .sort({ createdAt: -1 });
     }
     async resolveDispute(id) {
-        return this.disputeModel.findByIdAndUpdate(id, { status: 'resolved' }, { new: true });
+        return this.disputeModel.findByIdAndUpdate(id, { status: "resolved" }, { new: true });
     }
 };
 exports.DisputesService = DisputesService;
 exports.DisputesService = DisputesService = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, mongoose_1.InjectModel)('Dispute')),
-    __param(1, (0, mongoose_1.InjectModel)('Booking')),
-    __param(2, (0, mongoose_1.InjectModel)('Provider')),
+    __param(0, (0, mongoose_1.InjectModel)("Dispute")),
+    __param(1, (0, mongoose_1.InjectModel)("Booking")),
+    __param(2, (0, mongoose_1.InjectModel)("Provider")),
     __metadata("design:paramtypes", [mongoose_2.Model,
         mongoose_2.Model,
         mongoose_2.Model,

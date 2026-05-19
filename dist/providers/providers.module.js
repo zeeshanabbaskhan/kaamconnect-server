@@ -20,8 +20,8 @@ exports.ProvidersModule = ProvidersModule = __decorate([
     (0, common_1.Module)({
         imports: [
             mongoose_1.MongooseModule.forFeature([
-                { name: 'Provider', schema: provider_schema_1.ProviderSchema },
-                { name: 'Review', schema: review_schema_1.ReviewSchema },
+                { name: "Provider", schema: provider_schema_1.ProviderSchema },
+                { name: "Review", schema: review_schema_1.ReviewSchema },
             ]),
         ],
         controllers: [providers_controller_1.ProvidersController],

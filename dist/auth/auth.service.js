@@ -63,7 +63,7 @@ let AuthService = class AuthService {
     async signupUser(dto) {
         const existing = await this.userModel.findOne({ phone: dto.phone });
         if (existing)
-            throw new common_1.BadRequestException('User with phone already exists');
+            throw new common_1.BadRequestException("User with phone already exists");
         const passwordHash = await bcrypt.hash(dto.password, 10);
         const user = await this.userModel.create({
             name: dto.name,
@@ -75,9 +75,9 @@ let AuthService = class AuthService {
     async loginUser(dto) {
         const user = await this.userModel.findOne({ phone: dto.phone });
         if (!user || !(await bcrypt.compare(dto.password, user.passwordHash))) {
-            throw new common_1.UnauthorizedException('Invalid credentials');
+            throw new common_1.UnauthorizedException("Invalid credentials");
         }
-        const payload = { sub: user._id, role: 'user' };
+        const payload = { sub: user._id, role: "user" };
         return {
             access_token: this.jwtService.sign(payload),
             user: { id: user._id, name: user.name, phone: user.phone },
@@ -86,7 +86,7 @@ let AuthService = class AuthService {
     async signupProvider(dto) {
         const existing = await this.providerModel.findOne({ phone: dto.phone });
         if (existing)
-            throw new common_1.BadRequestException('Provider with phone already exists');
+            throw new common_1.BadRequestException("Provider with phone already exists");
         const passwordHash = await bcrypt.hash(dto.password, 10);
         const provider = await this.providerModel.create({
             name: dto.name,
@@ -99,21 +99,26 @@ let AuthService = class AuthService {
     }
     async loginProvider(dto) {
         const provider = await this.providerModel.findOne({ phone: dto.phone });
-        if (!provider || !(await bcrypt.compare(dto.password, provider.passwordHash))) {
-            throw new common_1.UnauthorizedException('Invalid credentials');
+        if (!provider ||
+            !(await bcrypt.compare(dto.password, provider.passwordHash))) {
+            throw new common_1.UnauthorizedException("Invalid credentials");
         }
-        const payload = { sub: provider._id, role: 'provider' };
+        const payload = { sub: provider._id, role: "provider" };
         return {
             access_token: this.jwtService.sign(payload),
-            provider: { id: provider._id, name: provider.name, phone: provider.phone },
+            provider: {
+                id: provider._id,
+                name: provider.name,
+                phone: provider.phone,
+            },
         };
     }
 };
 exports.AuthService = AuthService;
 exports.AuthService = AuthService = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, mongoose_1.InjectModel)('User')),
-    __param(1, (0, mongoose_1.InjectModel)('Provider')),
+    __param(0, (0, mongoose_1.InjectModel)("User")),
+    __param(1, (0, mongoose_1.InjectModel)("Provider")),
     __metadata("design:paramtypes", [mongoose_2.Model,
         mongoose_2.Model,
         jwt_1.JwtService])

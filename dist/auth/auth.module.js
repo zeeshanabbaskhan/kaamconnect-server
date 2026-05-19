@@ -27,14 +27,14 @@ exports.AuthModule = AuthModule = __decorate([
             jwt_1.JwtModule.registerAsync({
                 imports: [config_1.ConfigModule],
                 useFactory: async (configService) => ({
-                    secret: configService.get('JWT_SECRET', 'kaamconnect_super_secret_jwt_key_2024'),
-                    signOptions: { expiresIn: '7d' },
+                    secret: configService.get("JWT_SECRET", "kaamconnect_super_secret_jwt_key_2024"),
+                    signOptions: { expiresIn: "7d" },
                 }),
                 inject: [config_1.ConfigService],
             }),
             mongoose_1.MongooseModule.forFeature([
-                { name: 'User', schema: user_schema_1.UserSchema },
-                { name: 'Provider', schema: provider_schema_1.ProviderSchema },
+                { name: "User", schema: user_schema_1.UserSchema },
+                { name: "Provider", schema: provider_schema_1.ProviderSchema },
             ]),
         ],
         controllers: [auth_controller_1.AuthController],

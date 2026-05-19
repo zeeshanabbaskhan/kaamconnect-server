@@ -1,7 +1,7 @@
-import { GeminiService } from './gemini.service';
+import { LlmService } from "./llm.service";
 export declare class DisputeAgentService {
-    private gemini;
+    private llm;
     private logger;
-    constructor(gemini: GeminiService);
+    constructor(llm: LlmService);
     analyzeDispute(disputeDetails: any, bookingDetails: any, providerDetails: any): Promise<any>;
 }

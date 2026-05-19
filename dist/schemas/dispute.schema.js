@@ -25,15 +25,15 @@ let Dispute = class Dispute {
 };
 exports.Dispute = Dispute;
 __decorate([
-    (0, mongoose_1.Prop)({ type: mongoose_2.Types.ObjectId, ref: 'Booking', required: true }),
+    (0, mongoose_1.Prop)({ type: mongoose_2.Types.ObjectId, ref: "Booking", required: true }),
     __metadata("design:type", String)
 ], Dispute.prototype, "bookingId", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ type: mongoose_2.Types.ObjectId, ref: 'User', required: true }),
+    (0, mongoose_1.Prop)({ type: mongoose_2.Types.ObjectId, ref: "User", required: true }),
     __metadata("design:type", String)
 ], Dispute.prototype, "userId", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ type: mongoose_2.Types.ObjectId, ref: 'Provider', required: true }),
+    (0, mongoose_1.Prop)({ type: mongoose_2.Types.ObjectId, ref: "Provider", required: true }),
     __metadata("design:type", String)
 ], Dispute.prototype, "providerId", void 0);
 __decorate([
@@ -45,7 +45,10 @@ __decorate([
     __metadata("design:type", String)
 ], Dispute.prototype, "description", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ default: 'investigating', enum: ['investigating', 'resolved', 'escalated'] }),
+    (0, mongoose_1.Prop)({
+        default: "investigating",
+        enum: ["investigating", "resolved", "escalated"],
+    }),
     __metadata("design:type", String)
 ], Dispute.prototype, "status", void 0);
 __decorate([

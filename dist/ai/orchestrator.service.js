@@ -21,6 +21,7 @@ const pricing_agent_service_1 = require("./pricing-agent.service");
 const dispute_agent_service_1 = require("./dispute-agent.service");
 const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
+const kaamconnect_gateway_1 = require("../sockets/kaamconnect.gateway");
 let OrchestratorService = OrchestratorService_1 = class OrchestratorService {
     intentAgent;
     matchingAgent;
@@ -28,25 +29,29 @@ let OrchestratorService = OrchestratorService_1 = class OrchestratorService {
     disputeAgent;
     providerModel;
     bookingModel;
+    gateway;
     logger = new common_1.Logger(OrchestratorService_1.name);
-    constructor(intentAgent, matchingAgent, pricingAgent, disputeAgent, providerModel, bookingModel) {
+    constructor(intentAgent, matchingAgent, pricingAgent, disputeAgent, providerModel, bookingModel, gateway) {
         this.intentAgent = intentAgent;
         this.matchingAgent = matchingAgent;
         this.pricingAgent = pricingAgent;
         this.disputeAgent = disputeAgent;
         this.providerModel = providerModel;
         this.bookingModel = bookingModel;
+        this.gateway = gateway;
     }
     async handleBookingFlow(userId, requestText, userLocation, scheduledTime, userPreferences) {
         this.logger.log(`[Orchestrator] Starting flow for User ${userId}`);
         const intent = await this.intentAgent.extractIntent(requestText);
         this.logger.log(`[Orchestrator] Intent: ${JSON.stringify(intent)}`);
-        const allProviders = await this.providerModel.find({ status: 'active' }).lean();
-        let matchedProviders = await this.matchingAgent.rankProviders(allProviders, intent, userLocation);
+        const allProviders = await this.providerModel
+            .find({ status: "active" })
+            .lean();
+        const matchedProviders = await this.matchingAgent.rankProviders(allProviders, intent, userLocation);
         if (userPreferences?.maxBudget) {
         }
         if (matchedProviders.length === 0) {
-            throw new common_1.NotFoundException('No available providers found for this service.');
+            throw new common_1.NotFoundException("No available providers found for this service.");
         }
         const bestProvider = matchedProviders[0];
         this.logger.log(`[Orchestrator] Best match: Provider ${bestProvider._id}`);
@@ -59,13 +64,13 @@ let OrchestratorService = OrchestratorService_1 = class OrchestratorService {
             serviceType: intent.serviceType,
             description: requestText,
             location: userLocation,
-            status: 'matched',
+            status: "matched",
             pricing,
             aiIntentAnalysis: intent,
             scheduledTime: scheduledTime || new Date(),
         });
         return {
-            message: 'Booking successfully orchestrated',
+            message: "Booking successfully orchestrated",
             bookingId: booking._id,
             provider: {
                 id: bestProvider._id,
@@ -84,13 +89,14 @@ let OrchestratorService = OrchestratorService_1 = class OrchestratorService {
 exports.OrchestratorService = OrchestratorService;
 exports.OrchestratorService = OrchestratorService = OrchestratorService_1 = __decorate([
     (0, common_1.Injectable)(),
-    __param(4, (0, mongoose_1.InjectModel)('Provider')),
-    __param(5, (0, mongoose_1.InjectModel)('Booking')),
+    __param(4, (0, mongoose_1.InjectModel)("Provider")),
+    __param(5, (0, mongoose_1.InjectModel)("Booking")),
     __metadata("design:paramtypes", [intent_agent_service_1.IntentAgentService,
         matching_agent_service_1.MatchingAgentService,
         pricing_agent_service_1.PricingAgentService,
         dispute_agent_service_1.DisputeAgentService,
         mongoose_2.Model,
-        mongoose_2.Model])
+        mongoose_2.Model,
+        kaamconnect_gateway_1.KaamConnectGateway])
 ], OrchestratorService);
 //# sourceMappingURL=orchestrator.service.js.map

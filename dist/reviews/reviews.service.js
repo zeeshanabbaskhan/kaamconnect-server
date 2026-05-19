@@ -16,17 +16,17 @@ exports.ReviewsService = void 0;
 const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
-const gemini_service_1 = require("../ai/gemini.service");
+const llm_service_1 = require("../ai/llm.service");
 let ReviewsService = class ReviewsService {
     reviewModel;
     providerModel;
     bookingModel;
-    geminiService;
-    constructor(reviewModel, providerModel, bookingModel, geminiService) {
+    llm;
+    constructor(reviewModel, providerModel, bookingModel, llm) {
         this.reviewModel = reviewModel;
         this.providerModel = providerModel;
         this.bookingModel = bookingModel;
-        this.geminiService = geminiService;
+        this.llm = llm;
     }
     async createReview(userId, dto) {
         const sentimentPrompt = `
@@ -36,11 +36,12 @@ Return: {"score": 0.0-1.0, "label": "positive|neutral|negative"}
 `;
         let sentimentScore = 0.7;
         try {
-            const raw = await this.geminiService.generateText(sentimentPrompt);
-            const parsed = JSON.parse(raw.replace(/```json|```/g, '').trim());
+            const raw = await this.llm.generateText(sentimentPrompt);
+            const parsed = JSON.parse(raw.replace(/```json|```/g, "").trim());
             sentimentScore = parsed.score || 0.7;
         }
-        catch { }
+        catch {
+        }
         const review = await this.reviewModel.create({
             bookingId: dto.bookingId,
             providerId: dto.providerId,
@@ -53,32 +54,33 @@ Return: {"score": 0.0-1.0, "label": "positive|neutral|negative"}
         const provider = await this.providerModel.findById(dto.providerId);
         if (provider) {
             const updatedRating = 0.8 * (provider.rating || 3) + 0.2 * dto.rating;
-            provider.rating = Math.round(updatedRating * 10) / 10;
-            provider.reviewCount = (provider.reviewCount || 0) + 1;
-            await provider.save();
+            await this.providerModel.findByIdAndUpdate(dto.providerId, {
+                rating: Math.round(updatedRating * 10) / 10,
+                $inc: { reviewCount: 1, completedJobs: 1 },
+            });
         }
         await this.bookingModel.findByIdAndUpdate(dto.bookingId, {
             feedback: { rating: dto.rating, review: dto.review, sentimentScore },
-            status: 'completed',
+            status: "completed",
         });
         return review;
     }
     async getProviderReviews(providerId) {
         return this.reviewModel
             .find({ providerId })
-            .populate('userId', 'name')
+            .populate("userId", "name")
             .sort({ createdAt: -1 });
     }
 };
 exports.ReviewsService = ReviewsService;
 exports.ReviewsService = ReviewsService = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, mongoose_1.InjectModel)('Review')),
-    __param(1, (0, mongoose_1.InjectModel)('Provider')),
-    __param(2, (0, mongoose_1.InjectModel)('Booking')),
+    __param(0, (0, mongoose_1.InjectModel)("Review")),
+    __param(1, (0, mongoose_1.InjectModel)("Provider")),
+    __param(2, (0, mongoose_1.InjectModel)("Booking")),
     __metadata("design:paramtypes", [mongoose_2.Model,
         mongoose_2.Model,
         mongoose_2.Model,
-        gemini_service_1.GeminiService])
+        llm_service_1.LlmService])
 ], ReviewsService);
 //# sourceMappingURL=reviews.service.js.map

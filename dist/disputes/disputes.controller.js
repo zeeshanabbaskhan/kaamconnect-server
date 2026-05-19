@@ -33,7 +33,7 @@ let DisputesController = class DisputesController {
 };
 exports.DisputesController = DisputesController;
 __decorate([
-    (0, common_1.Post)('create'),
+    (0, common_1.Post)("create"),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Request)()),
     __metadata("design:type", Function),
@@ -41,21 +41,21 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], DisputesController.prototype, "create", null);
 __decorate([
-    (0, common_1.Get)('my'),
+    (0, common_1.Get)("my"),
     __param(0, (0, common_1.Request)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], DisputesController.prototype, "getMyDisputes", null);
 __decorate([
-    (0, common_1.Patch)(':id/resolve'),
-    __param(0, (0, common_1.Param)('id')),
+    (0, common_1.Patch)(":id/resolve"),
+    __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], DisputesController.prototype, "resolve", null);
 exports.DisputesController = DisputesController = __decorate([
-    (0, common_1.Controller)('disputes'),
+    (0, common_1.Controller)("disputes"),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     __metadata("design:paramtypes", [disputes_service_1.DisputesService])
 ], DisputesController);

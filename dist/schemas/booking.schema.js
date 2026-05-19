@@ -26,11 +26,11 @@ let Booking = class Booking {
 };
 exports.Booking = Booking;
 __decorate([
-    (0, mongoose_1.Prop)({ type: mongoose_2.Types.ObjectId, ref: 'User', required: true }),
+    (0, mongoose_1.Prop)({ type: mongoose_2.Types.ObjectId, ref: "User", required: true }),
     __metadata("design:type", String)
 ], Booking.prototype, "userId", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ type: mongoose_2.Types.ObjectId, ref: 'Provider' }),
+    (0, mongoose_1.Prop)({ type: mongoose_2.Types.ObjectId, ref: "Provider" }),
     __metadata("design:type", String)
 ], Booking.prototype, "providerId", void 0);
 __decorate([
@@ -46,7 +46,18 @@ __decorate([
     __metadata("design:type", Object)
 ], Booking.prototype, "location", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ default: 'requested', enum: ['requested', 'matched', 'provider_en_route', 'in_progress', 'completed', 'disputed', 'cancelled'] }),
+    (0, mongoose_1.Prop)({
+        default: "requested",
+        enum: [
+            "requested",
+            "matched",
+            "provider_en_route",
+            "in_progress",
+            "completed",
+            "disputed",
+            "cancelled",
+        ],
+    }),
     __metadata("design:type", String)
 ], Booking.prototype, "status", void 0);
 __decorate([

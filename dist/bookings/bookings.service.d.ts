@@ -1,14 +1,17 @@
-import { Model } from 'mongoose';
-import { BookingDocument } from '../schemas/booking.schema';
-import { ProviderDocument } from '../schemas/provider.schema';
-import { UserDocument } from '../schemas/user.schema';
-import { OrchestratorService } from '../ai/orchestrator.service';
+import { Model } from "mongoose";
+import { BookingDocument } from "../schemas/booking.schema";
+import { ProviderDocument } from "../schemas/provider.schema";
+import { UserDocument } from "../schemas/user.schema";
+import { OrchestratorService } from "../ai/orchestrator.service";
+import { KaamConnectGateway } from "../sockets/kaamconnect.gateway";
 export declare class BookingsService {
     private bookingModel;
     private providerModel;
     private userModel;
     private orchestrator;
-    constructor(bookingModel: Model<BookingDocument>, providerModel: Model<ProviderDocument>, userModel: Model<UserDocument>, orchestrator: OrchestratorService);
+    private gateway;
+    private logger;
+    constructor(bookingModel: Model<BookingDocument>, providerModel: Model<ProviderDocument>, userModel: Model<UserDocument>, orchestrator: OrchestratorService, gateway: KaamConnectGateway);
     createBooking(userId: string, request: string, location: any, scheduledTime?: Date): Promise<{
         message: string;
         bookingId: import("mongoose").Types.ObjectId;

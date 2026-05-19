@@ -1,10 +1,11 @@
-import { IntentAgentService } from './intent-agent.service';
-import { MatchingAgentService } from './matching-agent.service';
-import { PricingAgentService } from './pricing-agent.service';
-import { DisputeAgentService } from './dispute-agent.service';
-import { Model } from 'mongoose';
-import { ProviderDocument } from '../schemas/provider.schema';
-import { BookingDocument } from '../schemas/booking.schema';
+import { IntentAgentService } from "./intent-agent.service";
+import { MatchingAgentService } from "./matching-agent.service";
+import { PricingAgentService } from "./pricing-agent.service";
+import { DisputeAgentService } from "./dispute-agent.service";
+import { Model } from "mongoose";
+import { ProviderDocument } from "../schemas/provider.schema";
+import { BookingDocument } from "../schemas/booking.schema";
+import { KaamConnectGateway } from "../sockets/kaamconnect.gateway";
 export declare class OrchestratorService {
     private intentAgent;
     private matchingAgent;
@@ -12,8 +13,9 @@ export declare class OrchestratorService {
     private disputeAgent;
     private providerModel;
     private bookingModel;
+    private gateway;
     private logger;
-    constructor(intentAgent: IntentAgentService, matchingAgent: MatchingAgentService, pricingAgent: PricingAgentService, disputeAgent: DisputeAgentService, providerModel: Model<ProviderDocument>, bookingModel: Model<BookingDocument>);
+    constructor(intentAgent: IntentAgentService, matchingAgent: MatchingAgentService, pricingAgent: PricingAgentService, disputeAgent: DisputeAgentService, providerModel: Model<ProviderDocument>, bookingModel: Model<BookingDocument>, gateway: KaamConnectGateway);
     handleBookingFlow(userId: string, requestText: string, userLocation: any, scheduledTime?: Date, userPreferences?: any): Promise<{
         message: string;
         bookingId: import("mongoose").Types.ObjectId;

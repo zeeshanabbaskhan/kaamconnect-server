@@ -11,11 +11,11 @@ const common_1 = require("@nestjs/common");
 let PricingAgentService = class PricingAgentService {
     calculatePrice(intent, distanceKm, baseRate, isNightTime = false) {
         let urgencySurge = 0;
-        if (intent.urgency === 'high')
+        if (intent.urgency === "high")
             urgencySurge = 0.2;
-        else if (intent.urgency === 'low')
+        else if (intent.urgency === "low")
             urgencySurge = -0.1;
-        let timeSurge = isNightTime ? 0.3 : 0;
+        const timeSurge = isNightTime ? 0.3 : 0;
         let distanceCost = 0;
         if (distanceKm > 3) {
             distanceCost = (distanceKm - 3) * 50;

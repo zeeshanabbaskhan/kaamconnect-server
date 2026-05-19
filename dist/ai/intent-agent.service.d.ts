@@ -1,7 +1,7 @@
-import { GeminiService } from './gemini.service';
+import { LlmService } from "./llm.service";
 export declare class IntentAgentService {
-    private gemini;
+    private llm;
     private logger;
-    constructor(gemini: GeminiService);
+    constructor(llm: LlmService);
     extractIntent(text: string): Promise<any>;
 }

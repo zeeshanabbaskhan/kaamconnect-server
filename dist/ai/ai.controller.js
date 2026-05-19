@@ -32,21 +32,21 @@ let AiController = class AiController {
 };
 exports.AiController = AiController;
 __decorate([
-    (0, common_1.Post)('orchestrate'),
+    (0, common_1.Post)("orchestrate"),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], AiController.prototype, "orchestrateBooking", null);
 __decorate([
-    (0, common_1.Post)('parse-intent'),
+    (0, common_1.Post)("parse-intent"),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], AiController.prototype, "parseIntent", null);
 exports.AiController = AiController = __decorate([
-    (0, common_1.Controller)('ai'),
+    (0, common_1.Controller)("ai"),
     __metadata("design:paramtypes", [orchestrator_service_1.OrchestratorService,
         intent_agent_service_1.IntentAgentService])
 ], AiController);

@@ -67,7 +67,7 @@ __decorate([
     __metadata("design:type", Number)
 ], Provider.prototype, "reliabilityScore", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ default: 'active', enum: ['active', 'busy', 'offline', 'suspended'] }),
+    (0, mongoose_1.Prop)({ default: "active", enum: ["active", "busy", "offline", "suspended"] }),
     __metadata("design:type", String)
 ], Provider.prototype, "status", void 0);
 __decorate([

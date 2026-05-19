@@ -12,12 +12,12 @@ var DisputeAgentService_1;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DisputeAgentService = void 0;
 const common_1 = require("@nestjs/common");
-const gemini_service_1 = require("./gemini.service");
+const llm_service_1 = require("./llm.service");
 let DisputeAgentService = DisputeAgentService_1 = class DisputeAgentService {
-    gemini;
+    llm;
     logger = new common_1.Logger(DisputeAgentService_1.name);
-    constructor(gemini) {
-        this.gemini = gemini;
+    constructor(llm) {
+        this.llm = llm;
     }
     async analyzeDispute(disputeDetails, bookingDetails, providerDetails) {
         const prompt = `
@@ -39,18 +39,18 @@ Return ONLY valid JSON:
 }
 `;
         try {
-            const response = await this.gemini.generateText(prompt);
-            const cleaned = response.replace(/```json|```/g, '').trim();
+            const response = await this.llm.generateText(prompt);
+            const cleaned = response.replace(/```json|```/g, "").trim();
             return JSON.parse(cleaned);
         }
         catch (error) {
             this.logger.error(`Dispute analysis failed: ${error.message}`);
             return {
-                fault: 'neutral',
+                fault: "neutral",
                 refundAmount: 0,
                 penalizeProvider: false,
                 reliabilityDeduction: 0,
-                explanation: 'Fallback analysis due to AI failure. Manual review required.',
+                explanation: "Fallback analysis due to AI failure. Manual review required.",
             };
         }
     }
@@ -58,6 +58,6 @@ Return ONLY valid JSON:
 exports.DisputeAgentService = DisputeAgentService;
 exports.DisputeAgentService = DisputeAgentService = DisputeAgentService_1 = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [gemini_service_1.GeminiService])
+    __metadata("design:paramtypes", [llm_service_1.LlmService])
 ], DisputeAgentService);
 //# sourceMappingURL=dispute-agent.service.js.map

@@ -30,46 +30,53 @@ let MatchingAgentService = MatchingAgentService_1 = class MatchingAgentService {
         const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
             Math.cos(loc1.lat * (Math.PI / 180)) *
                 Math.cos(loc2.lat * (Math.PI / 180)) *
-                Math.sin(dLon / 2) * Math.sin(dLon / 2);
+                Math.sin(dLon / 2) *
+                Math.sin(dLon / 2);
         const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         return R * c;
     }
     async getActualDrivingDistance(origins, destinations) {
-        const apiKey = this.configService.get('GOOGLE_MAPS_API_KEY');
+        const apiKey = this.configService.get("GOOGLE_MAPS_API_KEY");
         if (!apiKey) {
-            this.logger.warn('GOOGLE_MAPS_API_KEY missing. Falling back to Haversine straight-line distance.');
-            return destinations.map(dest => this.calculateHaversineDistance(origins[0], dest));
+            this.logger.warn("GOOGLE_MAPS_API_KEY missing. Falling back to Haversine straight-line distance.");
+            return destinations.map((dest) => this.calculateHaversineDistance(origins[0], dest));
         }
         try {
             const response = await this.mapsClient.distancematrix({
                 params: {
-                    origins: origins.map(loc => ({ lat: loc.lat, lng: loc.lng })),
-                    destinations: destinations.map(loc => ({ lat: loc.lat, lng: loc.lng })),
+                    origins: origins.map((loc) => ({ lat: loc.lat, lng: loc.lng })),
+                    destinations: destinations.map((loc) => ({
+                        lat: loc.lat,
+                        lng: loc.lng,
+                    })),
                     key: apiKey,
                 },
             });
-            if (response.data.status === 'OK') {
-                const distances = response.data.rows[0].elements.map(element => {
-                    if (element.status === 'OK') {
+            if (response.data.status === "OK") {
+                const distances = response.data.rows[0].elements.map((element) => {
+                    if (element.status === "OK") {
                         return element.distance.value / 1000;
                     }
                     return null;
                 });
-                return distances.map((d, index) => d !== null ? d : this.calculateHaversineDistance(origins[0], destinations[index]));
+                return distances.map((d, index) => d !== null
+                    ? d
+                    : this.calculateHaversineDistance(origins[0], destinations[index]));
             }
             else {
-                throw new Error(response.data.error_message || 'Distance Matrix API returned non-OK status');
+                throw new Error(response.data.error_message ||
+                    "Distance Matrix API returned non-OK status");
             }
         }
         catch (error) {
             this.logger.error(`Google Maps Distance Matrix failed: ${error.message}`);
-            return destinations.map(dest => this.calculateHaversineDistance(origins[0], dest));
+            return destinations.map((dest) => this.calculateHaversineDistance(origins[0], dest));
         }
     }
     async rankProviders(providers, intent, userLocation) {
         if (providers.length === 0)
             return [];
-        const providerLocations = providers.map(p => p.location);
+        const providerLocations = providers.map((p) => p.location);
         const actualDistances = await this.getActualDrivingDistance([userLocation], providerLocations);
         const scoredProviders = providers.map((provider, index) => {
             let score = 0;
@@ -85,9 +92,9 @@ let MatchingAgentService = MatchingAgentService_1 = class MatchingAgentService {
                 score += 10;
             score += (provider.rating / 5) * 15;
             score += (provider.reliabilityScore / 100) * 10;
-            if (intent.urgency === 'high' && provider.status === 'active')
+            if (intent.urgency === "high" && provider.status === "active")
                 score += 5;
-            if (provider.status !== 'active')
+            if (provider.status !== "active")
                 score -= 50;
             return { provider, score, distance };
         });

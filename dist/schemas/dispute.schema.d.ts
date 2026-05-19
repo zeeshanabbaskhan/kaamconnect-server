@@ -1,4 +1,4 @@
-import { Document, Types } from 'mongoose';
+import { Document, Types } from "mongoose";
 export type DisputeDocument = Dispute & Document;
 export declare class Dispute {
     bookingId: string;

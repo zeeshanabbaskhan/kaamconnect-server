@@ -22,14 +22,16 @@ let UsersService = class UsersService {
         this.userModel = userModel;
     }
     async getProfile(id) {
-        const user = await this.userModel.findById(id).select('-passwordHash');
+        const user = await this.userModel.findById(id).select("-passwordHash");
         if (!user)
-            throw new common_1.NotFoundException('User not found');
+            throw new common_1.NotFoundException("User not found");
         return user;
     }
     async updateProfile(id, dto) {
         const { password, ...safe } = dto;
-        return this.userModel.findByIdAndUpdate(id, safe, { new: true }).select('-passwordHash');
+        return this.userModel
+            .findByIdAndUpdate(id, safe, { new: true })
+            .select("-passwordHash");
     }
     async addLoyaltyPoints(id, points) {
         return this.userModel.findByIdAndUpdate(id, { $inc: { loyaltyPoints: points } }, { new: true });
@@ -41,7 +43,7 @@ let UsersService = class UsersService {
 exports.UsersService = UsersService;
 exports.UsersService = UsersService = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, mongoose_1.InjectModel)('User')),
+    __param(0, (0, mongoose_1.InjectModel)("User")),
     __metadata("design:paramtypes", [mongoose_2.Model])
 ], UsersService);
 //# sourceMappingURL=users.service.js.map
